@@ -5,3 +5,11 @@ variable "eksclustername" {
 variable "vpcsgid" {
   description = "value of the default vpc's jenkins security group"
 }
+
+variable "publicsubnetid1" {
+  description = "value of public subnet id 1"
+}
+
+variable "publicsubnetid2" {
+  description = "value of public subnet id 2"
+}

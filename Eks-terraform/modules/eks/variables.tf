@@ -5,3 +5,7 @@ variable "eks_cluster_name_value" {
 variable "security_group_value" {
     description = "value for the default vpc sg for jenkins"
 }
+
+variable "subnet_ids_value" {
+  type = list
+}

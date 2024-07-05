@@ -37,6 +37,7 @@ resource "aws_iam_role_policy_attachment" "eks_vpc_controller_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
 }
 
+/*
 # Fetch default VPC ID
 data "aws_vpc" "default_vpc_id" {
   default = true
@@ -49,15 +50,20 @@ data "aws_subnets" "default_vpc_public_subnet" {
     values = [data.aws_vpc.default_vpc_id.id]
   }
 }
+*/
 
 # EKS Cluster
 resource "aws_eks_cluster" "eks" {
     name = var.eks_cluster_name_value
     role_arn = aws_iam_role.eks_role.arn
-
+    vpc_config {
+      subnet_ids      = [var.subnet_ids_value[0],var.subnet_ids_value[1]]
+    }
+/*
     vpc_config {
         subnet_ids = data.aws_subnets.default_vpc_public_subnet.ids
     }
+*/
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
@@ -116,7 +122,8 @@ resource "aws_eks_node_group" "eks_worker_node" {
     cluster_name    = aws_eks_cluster.eks.name
     node_group_name = "dev"
     node_role_arn   = aws_iam_role.eks_worker_role.arn
-    subnet_ids      = data.aws_subnets.default_vpc_public_subnet.ids
+    subnet_ids      = [var.subnet_ids_value[0],var.subnet_ids_value[1]]
+    # subnet_ids      = data.aws_subnets.default_vpc_public_subnet.ids
     capacity_type = "ON_DEMAND"
     disk_size = "20"
     instance_types = ["t2.small"]
