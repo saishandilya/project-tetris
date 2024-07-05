@@ -13,3 +13,7 @@ variable "publicsubnetid1" {
 variable "publicsubnetid2" {
   description = "value of public subnet id 2"
 }
+
+variable "keyname" {
+  description = "value of the key pair"
+}

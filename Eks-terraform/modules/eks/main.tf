@@ -128,6 +128,7 @@ resource "aws_eks_node_group" "eks_worker_node" {
     disk_size = "20"
     instance_types = ["t2.small"]
     remote_access {
+        ec2_ssh_key = var.key_name_value
         source_security_group_ids = [var.security_group_value]
     }
     scaling_config {

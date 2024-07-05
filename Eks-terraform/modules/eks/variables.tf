@@ -9,3 +9,7 @@ variable "security_group_value" {
 variable "subnet_ids_value" {
   type = list
 }
+
+variable "key_name_value" {
+  description = "value of the key pair"
+}
